@@ -1,22 +1,25 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
-require("dotenv");
+const config = require("./config/config");
 
-// Middlewares
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-app.use(cors());
+const startServer = () => {
+  const app = express();
 
-let port = process.env.PORT || 8080;
+  // Middlewares
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(cors());
 
-// Default API route
-app.get("/", (req, res) => {
+  app.get(config.api.prefix, (req, res) => {
     res.status(200).send({
-        obi_wan: "Hello there",
-        grievous: "GENERAL KENOBI"
+      obi_wan: "Hello there",
+      grievous: "GENERAL KENOBI",
     });
-});
+  });
 
-// Launch app
-app.listen(port, () => console.log("Running CarrotCart API on port " + port));
+  app.listen(config.port, () =>
+    console.log(`Running CarrotCart API on port ${config.port}`)
+  );
+};
+
+startServer();
