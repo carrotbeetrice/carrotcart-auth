@@ -10,12 +10,8 @@ const startServer = () => {
   app.use(express.json());
   app.use(cors());
 
-  app.get(config.api.prefix, (req, res) => {
-    res.status(200).send({
-      obi_wan: "Hello there",
-      grievous: "GENERAL KENOBI",
-    });
-  });
+  // Use API routes
+  require("./routes/index")(app, config.api.prefix);
 
   app.listen(config.port, () =>
     console.log(`Running CarrotCart API on port ${config.port}`)

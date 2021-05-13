@@ -21,4 +21,23 @@ module.exports = {
   api: {
     prefix: "/api",
   },
+  /**
+   * Database configs
+   */
+  db: {
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.DB_PORT,
+    idleTimeoutMillis: 30000,
+  },
+  /**
+   * JWT secret
+   */
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    maxTokenAge: "12h",
+    // algorithm: "RS512",
+  },
 };
