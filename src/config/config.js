@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 
 // Set NODE_ENV to development by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -14,7 +14,7 @@ module.exports = {
   /**
    * API port
    */
-  port: process.env.PORT,
+  port: process.env.PORT || 8080,
   /**
    * API configs
    */
