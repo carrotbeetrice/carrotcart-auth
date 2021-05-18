@@ -29,7 +29,7 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       pool.query(registerQuery.text, registerQuery.values, (err, result) => {
-        if (err) throw err;
+        if (err) reject(err);
         else return resolve(result.rows[0]);
       });
     }).catch((err) => {
@@ -85,7 +85,7 @@ module.exports = {
       return loginResult;
     }
 
-    loginResult.data = _.omit(customerData, "hash");
+    loginResult.data = { id: customerData.id };
     return loginResult;
   },
 };
