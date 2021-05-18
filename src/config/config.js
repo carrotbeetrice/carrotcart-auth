@@ -4,11 +4,11 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 // Check if .env file exists
-const envFound = dotenv.config();
+// const envFound = dotenv.config();
 
-if (envFound.error) {
-  throw new Error("Could not find .env file.");
-}
+// if (envFound.error) {
+//   throw new Error("Could not find .env file.");
+// }
 
 module.exports = {
   /**
