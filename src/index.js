@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const config = require("./config/config");
+const routes = require("./routes/authController");
 
 const startServer = () => {
   const app = express();
@@ -11,7 +12,7 @@ const startServer = () => {
   app.use(cors());
 
   // Use API routes
-  require("./routes/index")(app, config.api.prefix);
+  app.use("/auth", routes);
 
   app.listen(config.port, () =>
     console.log(`Running CarrotCart API on port ${config.port}`)

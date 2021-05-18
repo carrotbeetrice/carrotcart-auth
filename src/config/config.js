@@ -19,7 +19,7 @@ module.exports = {
    * API configs
    */
   api: {
-    prefix: "/api",
+    prefix: "/auth",
   },
   /**
    * Database configs
@@ -36,8 +36,9 @@ module.exports = {
    * JWT secret
    */
   jwt: {
-    secret: process.env.JWT_SECRET,
-    maxTokenAge: "12h",
-    // algorithm: "RS512",
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    maxAccessTokenAge: "1h",
+    maxRefreshTokenAge: "24h",
   },
 };

@@ -31,13 +31,14 @@ router.post("/login", (req, res) => {
     .loginCustomer(req.body)
     .then((result) => {
       if (result.success) {
-        let jwt = jwtUtils.generateToken(result.data);
-        result.jwt = jwt;
-        return res.status(200).send(result);
+        let jwt = jwtUtils.generateTokens(result.data);
+        return res.status(200).send({
+          success: result.success,
+          jwt: jwt,
+        });
       } else {
         return res.status(400).send(result);
       }
-      
     })
     .catch((err) => {
       console.error(err);
@@ -45,6 +46,18 @@ router.post("/login", (req, res) => {
         error: err,
       });
     });
+});
+
+/**
+ * Generate new access token from refresh token
+ */
+router.post("/token", (req, res) => {
+  try {
+    let newToken = jwtUtils.generateAccessToken(req.body.accessToken);
+    return res.status(200).json(newToken);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 });
 
 module.exports = router;
