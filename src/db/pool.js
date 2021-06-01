@@ -1,12 +1,17 @@
 const Pool = require("pg").Pool;
-const dbConfig = require("../config/config").db;
+const db = require("../config/config").db;
 
 var pool;
 
 module.exports = {
   getPool: () => {
     if (!pool) {
-      pool = new Pool(dbConfig);
+      const conString = db.uri;
+      if (!conString) {
+        pool = new Pool(db.config);
+      } else {
+        pool = new Pool({ connectionString: conString });
+      }
     }
     return pool;
   },

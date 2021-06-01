@@ -47,7 +47,7 @@ module.exports = {
     };
 
     const loginQuery = sql
-      .select(["id", "email", "hash"])
+      .select()
       .from("Customer")
       .where({ email: body.email })
       .toParams();

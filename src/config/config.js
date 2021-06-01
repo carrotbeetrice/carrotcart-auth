@@ -1,14 +1,10 @@
-// const dotenv = require("dotenv");
+const dotenv = require("dotenv");
 
-// Set NODE_ENV to development by default
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
-// Check if .env file exists
-// const envFound = dotenv.config();
-
-// if (envFound.error) {
-//   throw new Error("Could not find .env file.");
-// }
+if (process.env.NODE_ENV === "dev") {
+  const envFound = dotenv.config();
+  if (envFound.error)
+    throw new Error("Development mode: Could not find .env file");
+}
 
 module.exports = {
   /**
@@ -25,12 +21,15 @@ module.exports = {
    * Database configs
    */
   db: {
-    user: process.env.USER,
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-    port: process.env.DB_PORT,
-    idleTimeoutMillis: 30000,
+    config: {
+      user: process.env.USER,
+      host: process.env.HOST,
+      database: process.env.DATABASE,
+      password: process.env.PASSWORD,
+      port: process.env.DB_PORT,
+      idleTimeoutMillis: 30000,
+    },
+    uri: process.env.DATABASE_URL || null,
   },
   /**
    * JWT secret
