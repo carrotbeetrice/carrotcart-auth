@@ -75,8 +75,9 @@ module.exports = {
       throw Error("Error logging in");
     }
 
-    let correctPassword = await Promise.resolve(
-      hashUtils.checkPassword(body.password, customerData.hash)
+    let correctPassword = await hashUtils.checkPassword(
+      body.password,
+      customerData.hash
     );
 
     if (!correctPassword) {
@@ -87,5 +88,23 @@ module.exports = {
 
     loginResult.data = { id: customerData.id };
     return loginResult;
+  },
+  /**
+   * Password reset
+   */
+  resetPassword: (id, hash) => {
+    const resetPasswordQuery = sql
+      .update("Customer", { hash: hash })
+      .where({ id: id })
+      .returning("id")
+      .toParams();
+
+    return new Promise((resolve, reject) => {
+      pool.query(
+        resetPasswordQuery.text,
+        resetPasswordQuery.values,
+        (err, result) => (err ? reject(err) : resolve(result.rows[0]))
+      );
+    });
   },
 };

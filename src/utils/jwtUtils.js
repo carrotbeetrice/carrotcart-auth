@@ -13,9 +13,13 @@ module.exports = {
 
     return { accessToken, refreshToken };
   },
-  verifyToken: (token) => {
-    // Throws error if token is invalid
-    jwt.verify(token, jwtConfig.acessTokenSecret);
+  decodeToken: (token) => {
+    return new Promise((resolve, reject) =>
+      jwt.verify(token, jwtConfig.accessTokenSecret, (err, decoded) => {
+        if (err) return reject(err);
+        else return resolve(decoded);
+      })
+    );
   },
   generateAccessToken: (refreshToken) => {
     let user = jwt.verify(refreshToken, jwtConfig.refreshTokenSecret);
@@ -27,5 +31,12 @@ module.exports = {
       }
     );
     return newAccessToken;
+  },
+  extractToken: (req) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader.startsWith("Bearer ")) {
+      return authHeader.split(" ")[1];
+    } else return null;
   },
 };

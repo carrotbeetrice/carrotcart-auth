@@ -37,7 +37,7 @@ module.exports = {
   jwt: {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
-    maxAccessTokenAge: "1h",
-    maxRefreshTokenAge: "24h",
+    maxAccessTokenAge: "12h",
+    maxRefreshTokenAge: "168h",
   },
 };
