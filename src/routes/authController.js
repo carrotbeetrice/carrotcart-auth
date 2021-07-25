@@ -15,45 +15,42 @@ const { hashPassword } = require("../utils/hash");
 /**
  * Register new customer
  */
-router.post("/register", (req, res) => {
-  registerCustomer(req.body)
-    .then((result) => {
-      if (!result) {
-        return res.status(400).send({
-          error: "Account with this email already exists",
-        });
-      }
-      return res.status(200).send(result);
-    })
-    .catch((err) =>
-      res.status(500).send({
-        error: err,
-      })
-    );
+router.post("/register", async (req, res) => {
+  try {
+    const result = await registerCustomer(req.body);
+    if (!result) {
+      return res.status(400).send({
+        error: "Account with this email already exists",
+      });
+    } else {
+      return res.redirect(307, "/auth/login");
+    }
+  } catch (err) {
+    return res.status(500).send({
+      error: err,
+    });
+  }
 });
 
 /**
  * Log in customer
  */
-router.post("/login", (req, res) => {
-  loginCustomer(req.body)
-    .then((result) => {
-      if (result.success) {
-        let jwt = generateTokens(result.data);
-        return res.status(200).send({
-          success: result.success,
-          jwt: jwt,
-        });
-      } else {
-        return res.status(400).send(result);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      return res.status(500).send({
-        error: err,
+router.post("/login", async (req, res) => {
+  try {
+    const result = await loginCustomer(req.body);
+    if (result.success) {
+      let jwt = generateTokens(result.data);
+      return res.status(200).send({
+        success: result.success,
+        jwt: jwt,
       });
-    });
+    } else {
+      return res.status(400).send(result);
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send(err);
+  }
 });
 
 /**
