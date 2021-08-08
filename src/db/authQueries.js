@@ -86,7 +86,7 @@ module.exports = {
       return loginResult;
     }
 
-    loginResult.data = { id: customerData.id };
+    loginResult.data = { id: customerData.id, email: body.email };
     return loginResult;
   },
   /**
